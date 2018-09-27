@@ -5,9 +5,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace 命名空间 -->
 <mapper namespace="test">
-	<!-- 在xml中配置很多的SQL -->
+	<!-- 在xml中配置很多的SQL 
+	#{}:表示占位符  ？
+	如果输入参数为简单类型，占位符中的id可以为id或value等其他占位符
+	-->
 	<select id="findUserById" parameterType="int" resultType="cn.itcast.mybatis.po.User">
 	 SELECT * FROM USER WHERE id=#{id}
 	</select>
-
+	<!-- 使用username进行模糊查询 
+	${}:拼接SQL字符串用的。可能引起SQL注入安全问题
+	其中参数只能用value表示
+	-->
+	<select id="findUserByUsername" parameterType="String" resultType="cn.itcast.mybatis.po.User">
+	SELECT * FROM USER WHERE USERNAME LIKE '%${value}%'
+	</select>
+	
+	<!-- 新增用户 -->
+	<select id="insertUser" parameterType="cn.itcast.mybatis.po.User">
+	INSERT INTO USER VALUES(NULL,#{username},#{birthday},#{sex},#{address})
+	</select>
 </mapper>

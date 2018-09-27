@@ -2,12 +2,16 @@ package cn.itcast.mybatis.first;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+
+import cn.itcast.mybatis.po.User;
 
 /** 
 * <p>Title:Mybatis</p>
@@ -34,12 +38,40 @@ public class MybatisFirst {
 		//通过sqlsession对象操作数据库
 		//第一个参数：stament中的id指的是对应配置文件中相对应的sql
 		//第二个参数：就是传入的参数
-		sqlSession.selectOne("test.findUserByID",1);
-		
+		User user=sqlSession.selectOne("test.findUserById",1);
+		System.out.println(user.getId()+" "+user.getUsername());
+		System.out.println(user);
 		//释放资源
 		sqlSession.close();
+	}
+	
+	@Test
+	public void findUserByUsername() throws IOException {
 		
+		InputStream inputStream=Resources.getResourceAsStream("SqlMapConfig.xml");
+		SqlSessionFactory sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session=sessionFactory.openSession();
 		
+		List<User> list=session.selectList("test.findUserByUsername", "小明");
+		System.out.println(list);
+		
+		session.close();
+	}
+	
+	@Test
+	public void insertUser() throws IOException {
+		
+		InputStream inputStream=Resources.getResourceAsStream("SqlMapConfig.xml");
+		SqlSessionFactory sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session=sessionFactory.openSession();
+		User user=new User();
+		user.setUsername("rory");
+		user.setBirthday(new Date(System.currentTimeMillis()));
+		user.setSex("1");
+		user.setAddress("安徽桐城");
+		session.insert("test.insertUser", user);
+		session.commit();
+		session.close();
 		
 	}
 }
