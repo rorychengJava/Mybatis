@@ -69,9 +69,47 @@ public class MybatisFirst {
 		user.setBirthday(new Date(System.currentTimeMillis()));
 		user.setSex("1");
 		user.setAddress("安徽桐城");
+		
 		session.insert("test.insertUser", user);
 		session.commit();
+		
+		System.out.println(user.getId());
 		session.close();
 		
 	}
+	
+	//删除用户
+	@Test
+	public void deleteUser() throws IOException {
+		
+		InputStream inputStream=Resources.getResourceAsStream("SqlMapConfig.xml");
+		SqlSessionFactory sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session=sessionFactory.openSession();
+		User user=new User();
+		user.setUsername("rory");
+		user.setBirthday(new Date(System.currentTimeMillis()));
+		user.setSex("1");
+		user.setAddress("安徽桐城");
+		
+		session.delete("test.deleteUser", 25);
+		session.commit();
+		session.close();
+	}
+
+	//更新
+	@Test
+	public void updateUser() throws IOException {
+		
+		InputStream inputStream=Resources.getResourceAsStream("SqlMapConfig.xml");
+		SqlSessionFactory sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session=sessionFactory.openSession();
+		User user=new User();
+		user.setUsername("rorycheng");
+		user.setId(24);
+		user.setAddress("安徽合肥");
+		session.update("test.updateUser", user);
+		session.commit();
+		session.close();
+	}
+
 }
