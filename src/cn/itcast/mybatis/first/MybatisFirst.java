@@ -26,7 +26,7 @@ public class MybatisFirst {
 	public void findUserByIdTest() throws IOException {
 		
 		String resource="SqlMapConfig.xml";
-		
+		//读取xml文件
 		InputStream inputStream=Resources.getResourceAsStream(resource);
 		
 		//创建会话工厂  传入mybatis的配置文件信息

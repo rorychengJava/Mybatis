@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 命名空间 -->
+<mapper namespace="cn.itcast.mybatis.mapper.UserDaoMapper">
+	<!-- 在xml中配置很多的SQL 
+	#{}:表示占位符  ？
+	如果输入参数为简单类型，占位符中的id可以为id或value等其他占位符
+	-->
+	<select id="findUserById" parameterType="int" resultType="cn.itcast.mybatis.po.User">
+	 SELECT * FROM USER WHERE id=#{id}
+	</select>
+	<!-- 使用username进行模糊查询 
+	${}:拼接SQL字符串用的。可能引起SQL注入安全问题
+	其中参数只能用value表示
+	-->
+	<select id="findUserByUsername" parameterType="String" resultType="cn.itcast.mybatis.po.User">
+	SELECT * FROM USER WHERE USERNAME LIKE '%${value}%'
+	</select>
+	
+	<!-- 新增用户 
+	在执行插入数据语句后获取到自增主键，是insert之后调用该函数
+	-->
+	<insert id="insertUser" parameterType="cn.itcast.mybatis.po.User" >
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+		select LAST_INSERT_ID()
+		</selectKey>
+		<!-- 
+		uuid()非自增主键，先生成主键，绑定到id上后insert操作插入后，然后通过user对象获取id
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		select uuid()   select 序列.nextval()
+		</selectKey> 
+	   INSERT INTO USER VALUES(#{id},#{username},#{birthday},#{sex},#{address})
+		-->
+	    INSERT INTO USER VALUES(NULL,#{username},#{birthday},#{sex},#{address})
+	</insert>
+	
+	<!-- 删除用户 -->
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+	delete from user where id=#{id}
+	</delete>
+	
+	<!-- 更新用户 -->
+	<update id="updateUser" parameterType="cn.itcast.mybatis.po.User">
+	update user set username=#{username},address=#{address} where id=#{id}
+	</update>
+</mapper>
