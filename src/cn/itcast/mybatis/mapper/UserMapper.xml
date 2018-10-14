@@ -4,12 +4,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace 命名空间 -->
-<mapper namespace="cn.itcast.mybatis.mapper.UserDaoMapper">
+<mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
 	<!-- 在xml中配置很多的SQL 
 	#{}:表示占位符  ？
 	如果输入参数为简单类型，占位符中的id可以为id或value等其他占位符
 	-->
-	<select id="findUserById" parameterType="int" resultType="cn.itcast.mybatis.po.User">
+	<select id="findUserById" parameterType="int" resultType="user">
 	 SELECT * FROM USER WHERE id=#{id}
 	</select>
 	<!-- 使用username进行模糊查询 

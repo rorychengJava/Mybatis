@@ -36,7 +36,7 @@ public class UserDaoMapperTest {
 		//通过会话工厂获得sqlsession对象
 		SqlSession sqlSession=SqlSessionFactory.openSession();
 		//这个sqlsession对象是加载配置文件，然后读取xml中文件
-		UserDaoMapper daoMapper=sqlSession.getMapper(UserDaoMapper.class);
+		UserMapper daoMapper=sqlSession.getMapper(UserMapper.class);
 		//mybatis自动生成daoMapper代理对象
 		List<User> list=daoMapper.findUserById(1);
 		for (User user : list) {

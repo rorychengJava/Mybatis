@@ -3,6 +3,28 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<!-- 加载资源文件 -->
+	<properties resource="db.properties">
+	<!-- 不仅可以通过加载资源文件，也可以另外定义属性，加载xml文件时会首先读取该属性的值，可以覆盖资源文件的值
+	所以一般不设置，如果设置的话需要特殊化，避免与其他命名重复 -->
+<!-- 		<property name="" value=""/> -->
+	</properties>
+	
+	
+	<!-- 全局参数的设定 -->
+<!-- 		<settings> -->
+		
+<!-- 		</settings> -->
+	
+	
+	<!-- xml文件中输入输出类型别名的设定 -->
+		<typeAliases>
+		<!-- 针对单个别名的设定 -->
+<!--<typeAlias type="cn.itcast.mybatis.po.User" alias="user"/> -->
+		<!-- 批量别名的定义 ，通过扫描包的方式，默认的别名为类型，注意这里面的默认别名大写小写都可以-->
+		<package name="cn.itcast.mybatis.po"/>
+		</typeAliases>
+	
 	<!-- 和spring整合后 environments配置将废除-->
 	<environments default="development">
 		<environment id="development">
@@ -10,17 +32,24 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<transactionManager type="JDBC" />
 		<!-- 数据库连接池-->
 			<dataSource type="POOLED">
-				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql://localhost:3306/rory?characterEncoding=utf-8" />
-				<property name="username" value="root" />
-				<property name="password" value="123456" />
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
 			</dataSource>
 		</environment>
 	</environments>
 	
-	<!-- 加载映射文件xml -->
+<!-- 	加载映射文件xml -->
+<!-- 	<mappers> -->
+<!-- 		<mapper resource="sqlmap/User.xml"/> -->
+<!--        <mapper resource="mapper/UserMapper.xml"/> -->
+<!-- 	</mappers> -->
+	<!-- 通过mapper接口同时加载java文件和xml，前提是保证这两类文件在同一个目录下 ,同时文件名也要保持一致，这是他们加载时能够找到文件
+	的一个规范-->
 	<mappers>
-		<mapper resource="sqlmap/User.xml"/>
-		<mapper resource="mapper/UserMapper.xml"/>
+<!-- 	<mapper class="cn.itcast.mybatis.mapper.UserDaoMapper"/> -->
+	<package name="cn.itcast.mybatis.mapper"/>
 	</mappers>
+
 </configuration>

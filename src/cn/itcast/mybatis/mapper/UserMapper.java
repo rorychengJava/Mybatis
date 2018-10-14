@@ -11,7 +11,7 @@ import java.util.List;
 
 import cn.itcast.mybatis.po.User;
 
-public interface UserDaoMapper {
+public interface UserMapper {
 		
 	//根据id查询用户信息
 	public List<User> findUserById(int id) throws Exception;
