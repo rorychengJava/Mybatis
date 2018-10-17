@@ -5,6 +5,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace 命名空间 -->
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+<!-- resultMap高级映射 -->
+	<resultMap type="UserCustomer" id="resultMapUser">
+		<id column="id_" property="id"/>
+		<result column="username_" property="username"/>
+	</resultMap>
+	<select id="findUserByListMap" parameterType="cn.itcast.mybatis.po.UserQueryVo" 
+	        resultMap="cn.itcast.mybatis.mapper.UserMapper.resultMapUser">
+        select id id_,username username_ from user where sex=#{customer.sex} 
+        and address like '%${customer.address}%'	
+    </select>
+	
+
+	<select id="findUserByList" parameterType="cn.itcast.mybatis.po.UserQueryVo" 
+	        resultType="cn.itcast.mybatis.po.UserCustomer">
+        select * from user  	
+        <where>
+        	<if test="customer!=null">
+        		<if test="customer.sex!=null">
+        		sex=#{customer.sex}
+        		</if>
+        		<if test="customer.address!=null">
+        		and address like '%${customer.address}%'
+        		</if>
+        	</if>
+        
+        </where>
+    </select>
 	<!-- 在xml中配置很多的SQL 
 	#{}:表示占位符  ？
 	如果输入参数为简单类型，占位符中的id可以为id或value等其他占位符

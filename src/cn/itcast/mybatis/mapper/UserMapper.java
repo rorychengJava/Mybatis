@@ -10,9 +10,15 @@ package cn.itcast.mybatis.mapper;
 import java.util.List;
 
 import cn.itcast.mybatis.po.User;
+import cn.itcast.mybatis.po.UserCustomer;
+import cn.itcast.mybatis.po.UserQueryVo;
 
 public interface UserMapper {
 		
+	//根据多个信息进行高级查询
+	public List<UserCustomer> findUserByList(UserQueryVo userQueryVo) throws Exception;
+	//根据高级映射查询
+	public List<UserCustomer> findUserByListMap(UserQueryVo userQueryVo)throws Exception;
 	//根据id查询用户信息
 	public List<User> findUserById(int id) throws Exception;
 	//添加用户信息
