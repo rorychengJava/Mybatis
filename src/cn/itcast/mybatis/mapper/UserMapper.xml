@@ -5,6 +5,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace 命名空间 -->
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+	<!-- sql片段 -->
+	<sql id="query_user">
+		<if test="customer!=null">
+        		<if test="customer.sex!=null">
+        		and sex=#{customer.sex}
+        		</if>
+        		<if test="customer.address!=null">
+        		and address like '%${customer.address}%'
+        		</if>
+        	<!-- foreach循环对象属性中带的数组或者集合 
+        	and (id=27 or id=24) and  
+        	-->
+<!--         	<foreach collection="ids" item="item_id" open="and (" close=")" separator="or"> -->
+<!--         	id=#{item_id} -->
+<!--         	</foreach> -->
+        	
+        	<!-- foreach循环对象属性中带的数组或者集合 
+        	id in(24,27)
+        	-->
+        	<foreach collection="ids" item="item_id" open="and id in(" close=")" separator=",">
+        	#{item_id}
+        	</foreach>
+        </if>
+	</sql>
 <!-- resultMap高级映射 -->
 	<resultMap type="UserCustomer" id="resultMapUser">
 		<id column="id_" property="id"/>
@@ -19,17 +43,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findUserByList" parameterType="cn.itcast.mybatis.po.UserQueryVo" 
 	        resultType="cn.itcast.mybatis.po.UserCustomer">
-        select * from user  	
+        select * from user 
+        <!-- 如果该sql片段不在该xml中，那么refid后需要加上namespace --> 	
         <where>
-        	<if test="customer!=null">
-        		<if test="customer.sex!=null">
-        		sex=#{customer.sex}
-        		</if>
-        		<if test="customer.address!=null">
-        		and address like '%${customer.address}%'
-        		</if>
-        	</if>
-        
+        	<include refid="query_user"/>
         </where>
     </select>
 	<!-- 在xml中配置很多的SQL 

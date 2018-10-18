@@ -3,6 +3,7 @@ package cn.itcast.mybatis.mapperTest;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.io.Resources;
@@ -63,6 +64,10 @@ public class UserDaoMapperTest {
 		UserCustomer customer=new UserCustomer();
 		customer.setSex("1");
 		customer.setAddress("安徽合肥");
+		List<Integer> ids=new ArrayList<Integer>();
+		ids.add(24);
+		ids.add(27);
+		userQueryVo.setIds(ids);
 		userQueryVo.setCustomer(customer);
 		
 		List<UserCustomer> list =daoMapper.findUserByList(userQueryVo);
