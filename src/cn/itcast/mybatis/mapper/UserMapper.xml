@@ -29,13 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         	</foreach>
         </if>
 	</sql>
+	
 <!-- resultMap高级映射 -->
 	<resultMap type="UserCustomer" id="resultMapUser">
 		<id column="id_" property="id"/>
 		<result column="username_" property="username"/>
 	</resultMap>
 	<select id="findUserByListMap" parameterType="cn.itcast.mybatis.po.UserQueryVo" 
-	        resultMap="cn.itcast.mybatis.mapper.UserMapper.resultMapUser">
+	        resultMap="resultMapUser">
         select id id_,username username_ from user where sex=#{customer.sex} 
         and address like '%${customer.address}%'	
     </select>

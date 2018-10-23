@@ -47,7 +47,7 @@ public class UserDaoMapperTest {
 		customer.setAddress("安徽合肥");
 		userQueryVo.setCustomer(customer);
 		
-		List<UserCustomer> list =daoMapper.findUserByList(userQueryVo);
+		List<UserCustomer> list =daoMapper.findUserByListMap(userQueryVo);
 		System.out.println(list);
 		
 		sqlSession.close();
