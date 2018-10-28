@@ -30,15 +30,23 @@ public class OrdersCustomMapperTest {
 		InputStream inputStream=Resources.getResourceAsStream("SqlMapConfig.xml");
 		sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
 	}
-
+	@Test
+	public void findOrderDetail() throws Exception {
+		SqlSession sqlSession=sessionFactory.openSession();
+		//通过会话工厂生成代理对象
+		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
+		List<Orders> list=customMapper.findOrderDetail();
+		System.out.println(list+"/t");
+	}
 	@Test
 	public void findOrderListMap() throws Exception {
 		SqlSession sqlSession=sessionFactory.openSession();
 		//通过会话工厂生成代理对象
 		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
 		List<Orders> list=customMapper.findOrderListMap();
-		System.out.println(list);
+		System.out.println(list+"/t");
 	}
+	
 	
 	
 //	@Test

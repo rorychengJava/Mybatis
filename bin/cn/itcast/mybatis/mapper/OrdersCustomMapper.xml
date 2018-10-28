@@ -28,4 +28,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         on a.user_id=b.id
 	</select>
 	
+	
+	<resultMap type="cn.itcast.mybatis.po.Orders" id="findOrderDetailMap" extends="findOrderListMap">
+		<collection property="orderdetail" ofType="orderdetail">
+			<id column="orderdetail_id" property="id"/>
+			<result column="items_id"  property="itemsId"/>
+			<result column="items_num"  property="itemsNum"/>
+			<result column="orders_id"  property="ordersId"/>
+		</collection>
+
+	</resultMap>
+	<!-- 一对多的高级映射 -->
+	<select id="findOrderDetail" resultMap="findOrderDetailMap">
+	select a.*,b.username,b.address,c.id as orderdetail_id,
+		c.items_id,c.items_num,c.orders_id
+		from orders a 
+		inner join user b
+		on a.user_id=b.id
+		join orderdetail c
+		on a.id=c.orders_id
+	</select>
 </mapper>
