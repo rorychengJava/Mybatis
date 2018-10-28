@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 <!-- resultMap高级映射 -->
 	<resultMap type="UserCustomer" id="resultMapUser">
+	<!-- id唯一标识，如果有多个列组成唯一标识，那就配置多个ID -->
 		<id column="id_" property="id"/>
 		<result column="username_" property="username"/>
 	</resultMap>

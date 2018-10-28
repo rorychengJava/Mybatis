@@ -6,7 +6,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace 命名空间 -->
 <mapper namespace="cn.itcast.mybatis.mapper.OrdersCustomMapper">
 	
-	<select id="findOrderList" resultType="cn.itcast.mybatis.po.OrdersCustom">
+	<resultMap type="Orders" id="findOrderListMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<result column="note" property="note"/>
+		<!-- association中的property指的是Orders中属性
+		                  javaType指的是实体类类型 -->
+		<association property="user" javaType="user">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="address" property="address"/>
+		</association>
+	</resultMap>
+	
+	
+	<select id="findOrderListMap" resultMap="findOrderListMap">
 		select a.*,b.username,b.address from orders a 
         inner join user b
         on a.user_id=b.id

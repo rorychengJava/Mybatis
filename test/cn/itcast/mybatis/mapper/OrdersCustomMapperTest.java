@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import cn.itcast.mybatis.po.Orders;
 import cn.itcast.mybatis.po.OrdersCustom;
 
 /** 
@@ -31,12 +32,22 @@ public class OrdersCustomMapperTest {
 	}
 
 	@Test
-	public void findOrderList() throws Exception {
+	public void findOrderListMap() throws Exception {
 		SqlSession sqlSession=sessionFactory.openSession();
 		//通过会话工厂生成代理对象
 		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
-		List<OrdersCustom> list=customMapper.findOrderList();
+		List<Orders> list=customMapper.findOrderListMap();
 		System.out.println(list);
 	}
+	
+	
+//	@Test
+//	public void findOrderList() throws Exception {
+//		SqlSession sqlSession=sessionFactory.openSession();
+//		//通过会话工厂生成代理对象
+//		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
+//		List<OrdersCustom> list=customMapper.findOrderList();
+//		System.out.println(list);
+//	}
 
 }
