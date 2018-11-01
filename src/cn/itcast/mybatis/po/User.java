@@ -62,7 +62,7 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", sex=" + sex + ", birthday=" + birthday + ", address="
 				+ address + ", orders=" + orders + "]";
 	}
-	
+
 	
 		
 	

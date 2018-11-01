@@ -50,16 +50,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<resultMap type="User" id="OrderAndAll">
-		<id column="id" property="id"/>
+		<id column="userId" property="id"/>
 		<result column="username" property="username"/>
 	    	<collection property="orders" ofType="Orders">
-	    		<id column="id" property="id"/>
+	    		<id column="orderId" property="id"/>
 	    		<result column="number" property="number"/>
 	    			<collection property="orderdetail" ofType="Orderdetail">
 	    				<id column="id" property="id"/>
-	    				<result column="items_num" property="items_num"/>
+	    				<result column="items_num" property="itemsNum"/>
 	    				<association property="items" javaType="Items">
-	    					<id column="id" property="id"/>
+	    					<id column="ItemId" property="id"/>
 	    				<result column="name" property="name"/>
 	    				<result column="price" property="price"/>
 	    				</association>
@@ -69,7 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 多对多映射
 	需求：展现一个用户所对应的全部订单以及订单的全部商品 -->
 	<select id="findUserAndOrderAndAll" resultMap="OrderAndAll">
-		select user.id,user.username,orders.id,orders.number,items.*
+		select user.id as userId,user.username,orders.id as orderId,orders.number,orderdetail.items_num,items.id as ItemId,
+		items.name
 				from user
 				inner join orders on user.id=orders.user_id
 				join orderdetail  on orders.id=orderdetail.orders_id
