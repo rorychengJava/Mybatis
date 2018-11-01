@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import cn.itcast.mybatis.po.Orders;
 import cn.itcast.mybatis.po.OrdersCustom;
+import cn.itcast.mybatis.po.User;
 
 /** 
 * <p>Title:Mybatis</p>
@@ -31,6 +32,15 @@ public class OrdersCustomMapperTest {
 		sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
 	}
 	@Test
+	public void findUserAndOrderAndAll() throws Exception {
+		SqlSession sqlSession=sessionFactory.openSession();
+		//通过会话工厂生成代理对象
+		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
+		List<User> user=customMapper.findUserAndOrderAndAll();
+		System.out.println(user);
+	}
+	
+	@Test
 	public void findOrderDetail() throws Exception {
 		SqlSession sqlSession=sessionFactory.openSession();
 		//通过会话工厂生成代理对象
@@ -44,7 +54,7 @@ public class OrdersCustomMapperTest {
 		//通过会话工厂生成代理对象
 		OrdersCustomMapper customMapper=sqlSession.getMapper(OrdersCustomMapper.class);
 		List<Orders> list=customMapper.findOrderListMap();
-		System.out.println(list+"/t");
+		System.out.println(list);
 	}
 	
 	

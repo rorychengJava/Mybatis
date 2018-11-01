@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace 命名空间 -->
 <mapper namespace="cn.itcast.mybatis.mapper.OrdersCustomMapper">
 	
+	<!-- 一个订单只能被一个用户所拥有，一对一关系 -->
 	<resultMap type="Orders" id="findOrderListMap">
 		<id column="id" property="id"/>
 		<result column="user_id" property="userId"/>
@@ -13,14 +14,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="createtime" property="createtime"/>
 		<result column="note" property="note"/>
 		<!-- association中的property指的是Orders中属性
-		                  javaType指的是实体类类型 -->
+		 javaType指的是实体类类型 -->
 		<association property="user" javaType="user">
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="address" property="address"/>
 		</association>
 	</resultMap>
-	
 	
 	<select id="findOrderListMap" resultMap="findOrderListMap">
 		select a.*,b.username,b.address from orders a 
@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!-- 一对多的高级映射 -->
 	<resultMap type="cn.itcast.mybatis.po.Orders" id="findOrderDetailMap" extends="findOrderListMap">
 		<collection property="orderdetail" ofType="orderdetail">
 			<id column="orderdetail_id" property="id"/>
@@ -36,9 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="items_num"  property="itemsNum"/>
 			<result column="orders_id"  property="ordersId"/>
 		</collection>
-
 	</resultMap>
-	<!-- 一对多的高级映射 -->
+	
 	<select id="findOrderDetail" resultMap="findOrderDetailMap">
 	select a.*,b.username,b.address,c.id as orderdetail_id,
 		c.items_id,c.items_num,c.orders_id
@@ -47,5 +47,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on a.user_id=b.id
 		join orderdetail c
 		on a.id=c.orders_id
+	</select>
+	
+	<resultMap type="User" id="OrderAndAll">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+	    	<collection property="orders" ofType="Orders">
+	    		<id column="id" property="id"/>
+	    		<result column="number" property="number"/>
+	    			<collection property="orderdetail" ofType="Orderdetail">
+	    				<id column="id" property="id"/>
+	    				<result column="items_num" property="items_num"/>
+	    				<association property="items" javaType="Items">
+	    					<id column="id" property="id"/>
+	    				<result column="name" property="name"/>
+	    				<result column="price" property="price"/>
+	    				</association>
+	    			</collection>
+	    	</collection>
+	</resultMap>
+	<!-- 多对多映射
+	需求：展现一个用户所对应的全部订单以及订单的全部商品 -->
+	<select id="findUserAndOrderAndAll" resultMap="OrderAndAll">
+		select user.id,user.username,orders.id,orders.number,items.*
+				from user
+				inner join orders on user.id=orders.user_id
+				join orderdetail  on orders.id=orderdetail.orders_id
+				join items on orderdetail.items_id=items.id
 	</select>
 </mapper>

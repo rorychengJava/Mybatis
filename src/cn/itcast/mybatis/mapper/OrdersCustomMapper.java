@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.itcast.mybatis.po.Orders;
 import cn.itcast.mybatis.po.OrdersCustom;
+import cn.itcast.mybatis.po.User;
 
 /** 
 * <p>Title:Mybatis</p>
@@ -21,6 +22,10 @@ public interface OrdersCustomMapper {
 	
 	//一对多的高级映射
 	public List<Orders> findOrderDetail() throws Exception;
+	
+	//多对多高级映射
+	public List<User> findUserAndOrderAndAll() throws Exception;
+
 
 }
 
