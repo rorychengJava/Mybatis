@@ -25,6 +25,10 @@ public interface OrdersCustomMapper {
 	
 	//多对多高级映射
 	public List<User> findUserAndOrderAndAll() throws Exception;
+	
+	//多对多高级映射测试2
+	public List<User> findUserAndOrderAndAll2() throws Exception;
+
 
 
 }

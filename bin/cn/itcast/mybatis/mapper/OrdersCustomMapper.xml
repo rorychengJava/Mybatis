@@ -76,4 +76,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				join orderdetail  on orders.id=orderdetail.orders_id
 				join items on orderdetail.items_id=items.id
 	</select>
+	<!-- 多对多映射测试2 -->
+	<resultMap type="User" id="OrderAndAll2">
+		<id column="userId" property="id"/>
+		<result column="username" property="username"/>
+	    	<collection property="orders" ofType="Orders">
+	    		<id column="orderId" property="id"/>
+	    		<result column="number" property="number"/>
+	    				<collection property="items" ofType="Items">
+		    				<id column="ItemId" property="id"/>
+		    				<result column="name" property="name"/>
+		    				<result column="price" property="price"/>
+	    				</collection>
+	    			</collection>
+	</resultMap>
+	<!-- 多对多映射
+	需求：展现一个用户所对应的全部订单以及订单的全部商品 -->
+	<select id="findUserAndOrderAndAll2" resultMap="OrderAndAll2">
+		select user.id as userId,user.username,orders.id as orderId,orders.number,items.id as ItemId,
+		items.name
+				from user
+				inner join orders on user.id=orders.user_id
+				join orderdetail  on orders.id=orderdetail.orders_id
+				join items on orderdetail.items_id=items.id
+	</select>
 </mapper>

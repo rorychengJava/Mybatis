@@ -19,6 +19,9 @@ public class Orders {
     
     //订单明细
     private List<Orderdetail> orderdetail;
+    
+    //商品明细
+    private List<Items> items;
 
     public Integer getId() {
         return id;
@@ -75,11 +78,23 @@ public class Orders {
 	public void setOrderdetail(List<Orderdetail> orderdetail) {
 		this.orderdetail = orderdetail;
 	}
+	
+	
+	public List<Items> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Items> items) {
+		this.items = items;
+	}
 
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", userId=" + userId + ", number=" + number + ", createtime=" + createtime
-				+ ", note=" + note + ", user=" + user + "]";
+				+ ", note=" + note + ", user=" + user + ", items=" + items + "]";
 	}
+
+
+
     
 }
