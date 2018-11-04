@@ -100,4 +100,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				join orderdetail  on orders.id=orderdetail.orders_id
 				join items on orderdetail.items_id=items.id
 	</select>
+	
+	<!-- 延迟加载 -->
+	<resultMap type="Orders" id="OrdersAndUserLazyLoading">
+	    <id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<result column="note" property="note"/>
+		<association property="user" javaType="User" 
+		select="cn.itcast.mybatis.mapper.UserMapper.findUserById" column="user_id">
+			<id column="id" property="id"/>
+			<result column="username" property="username"/>
+			<result column="address" property="address"/>
+		</association>
+	</resultMap>
+	<select id="findOrdersAndUserLazyLoading" resultMap="OrdersAndUserLazyLoading">
+		select * from orders
+	</select>
+	
 </mapper>

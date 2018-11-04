@@ -12,9 +12,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	
 	<!-- 全局参数的设定 -->
-<!-- 		<settings> -->
-		
-<!-- 		</settings> -->
+		<settings>
+		<!-- 打开延迟加载开关 -->
+			<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 将积极加载改为延迟加载，按需加载 -->
+			<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 二级缓存开关 -->
+			<setting name="cacheEnabled" value="true"/>
+		</settings>
 	
 	
 	<!-- xml文件中输入输出类型别名的设定 -->

@@ -32,6 +32,18 @@ public class OrdersCustomMapperTest {
 		sessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
 	}
 	@Test
+	public void findOrdersAndUserLazyLoading() throws Exception{
+		SqlSession sqlSession=sessionFactory.openSession();
+		OrdersCustomMapper ordersCustomMapper=sqlSession.getMapper(OrdersCustomMapper.class);
+		List<Orders> list=ordersCustomMapper.findOrdersAndUserLazyLoading();
+		for (Orders order : list) {
+			User user=order.getUser();
+			System.out.println(user);
+		}
+		
+	}
+	
+	@Test
 	public void findUserAndOrderAndAll2() throws Exception {
 		SqlSession sqlSession=sessionFactory.openSession();
 		//通过会话工厂生成代理对象

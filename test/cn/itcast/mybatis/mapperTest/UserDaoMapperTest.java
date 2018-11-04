@@ -34,6 +34,58 @@ public class UserDaoMapperTest {
 		SqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
 		
 	}
+	//二级缓存测试，
+	@Test
+	public void testcache2() throws Exception{
+		//测试不同的sqlsession
+		SqlSession sqlSession1=SqlSessionFactory.openSession();
+		UserMapper userMapper1=sqlSession1.getMapper(UserMapper.class);
+		List<User> list1=userMapper1.findUserById(1);
+		System.out.println(list1);
+		sqlSession1.close();//只有将sqlsession对象关闭了，才能将数据写到二级缓存区域中
+		SqlSession sqlSession3 = SqlSessionFactory.openSession();
+		//使用sqlSession3执行commit()操作
+		UserMapper userMapper3 = sqlSession3.getMapper(UserMapper.class);
+		List<User> list3 = userMapper3.findUserById(1);
+		User user=new User();
+		user.setId(1);
+		user.setUsername("张明明");
+		userMapper3.updateUser(user);
+		//执行提交，清空UserMapper下边的二级缓存
+		sqlSession3.commit();
+		sqlSession3.close();
+		
+		SqlSession sqlSession2=SqlSessionFactory.openSession();
+		UserMapper userMapper2=sqlSession2.getMapper(UserMapper.class);
+		List<User> list2=userMapper2.findUserById(1);
+		System.out.println(list2);
+		sqlSession2.close();
+	}
+	
+	//一级缓存测试，mybatis中默认开启一级缓存
+	@Test
+	public void testCache1() throws Exception {
+		SqlSession sqlSession=SqlSessionFactory.openSession();
+		UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+		//首先进行第一次查询
+		List<User> listUser1=userMapper.findUserById(1);
+		for (User user1 : listUser1) {
+			System.out.println(user1);
+		}
+		//在两次查询之间加入更新删除插入等commit操作，会清空一级缓存区域
+		User user=new User();
+		user.setId(1);
+		user.setUsername("王五五");
+		userMapper.updateUser(user);
+		sqlSession.commit();
+		//第二次查询
+		List<User> listUser2=userMapper.findUserById(1);
+		for (User user2 : listUser2) {
+			System.out.println(user2);
+		}
+		sqlSession.close();
+	}
+	
 	@Test
 	public void findUserByListMap() throws Exception {
 		//通过会话工厂获得sqlsession对象
@@ -88,7 +140,6 @@ public class UserDaoMapperTest {
 			System.out.println(user.getAddress());
 		}
 		sqlSession.close();
-		
 		
 	}
 

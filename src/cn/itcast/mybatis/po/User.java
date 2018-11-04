@@ -1,5 +1,6 @@
 package cn.itcast.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 * @Date 2018年9月18日 下午11:00:25
 * @version 1.0 
 */
-public class User {
+public class User implements Serializable{
 	private int id;
 	private String username;// 用户姓名
 	private String sex;// 性别

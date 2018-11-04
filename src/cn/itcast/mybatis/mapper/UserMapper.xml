@@ -5,6 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace 命名空间 -->
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+	<!-- 在namespace中也需要开启二级缓存开关 -->
+	<!-- mybatis无法实现分布式缓存，需要和其他专门做分布式缓存的进行整合，mybatis提供cache接口 
+	type:指的是和mybatis整个的实现cache接口类的实现类的类型-->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+	
 	<!-- sql片段 -->
 	<sql id="query_user">
 		<if test="customer!=null">
